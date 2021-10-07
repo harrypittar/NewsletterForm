@@ -46,6 +46,13 @@
                             <input type="phone" name="mob_digits">
                         </td>
                     </tr>
+                    <tr>
+                       
+                        <td>
+                            <input type="submit" name="submit" value="SUBMIT">
+
+                        </td>
+                    </tr>
                 </table>
 
             </form>
