@@ -18,7 +18,7 @@
             echo $row['name'] . "<br>";
             echo $row['email'] . "<br>";
             echo $row['phone'] . "<br>";
-            echo "" . "<br>";
+            echo "--------------------------------" . "<br>";
 
         }
     }
