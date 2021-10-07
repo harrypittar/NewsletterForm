@@ -29,14 +29,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Gender:</td>
-                        <td>
-                            <input type="radio" name="gender">Male
-                            <input type="radio" name="gender">Female
-                            <input type="radio" name="gender">Others
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Phone:</td>
                         <td>
                             <select>
