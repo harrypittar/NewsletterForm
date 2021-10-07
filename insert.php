@@ -18,6 +18,16 @@ if(isset($_POST['submit'])){
 
         if($run){
             echo " Form submitted successfully" ;
+            $query = mysqli_query($conn, "SELECT * FROM details");
+            $fopen = fopen("/var/www/admin/storage.csv", "w");
+            fwrite($fopen, "\n".'name'. ",".'email'. ",".'phone');
+            while($row = mysqli_fetch_assoc($query)){
+                fwrite($fopen,"\n".$row['name'].",".$row['email'].",".$row['phone']);
+
+            }
+            echo shell_exec("aws s3 mv storage.csv s3://newsletterbucket");
+            fclose($fopen);
+
 
         }
         else{
