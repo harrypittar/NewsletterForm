@@ -18,3 +18,9 @@ aws ec2 create-route-table --vpc-id vpc-013d086fde1b98a32 --query RouteTable.Rou
 aws ec2 create-route --route-table-id rtb-03260cc9d8ebf20d2 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0524fe0d55672a5a4
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-013d086fde1b98a32" --query "Subnets[*].{ID:SubnetId,CIDR:CidrBlock}"
 aws ec2 associate-route-table  --subnet-id subnet-06b70225232ffec28 --route-table-id rtb-03260cc9d8ebf20d2
+
+# Create VPC security group for public web server and enable public access
+aws ec2 create-security-group --group-name webserver-securitygroup --description "Web Server Security Group" --vpc-id vpc-013d086fde1b98a32 --query GroupId --output text
+aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 22 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 443 --cidr 0.0.0.0/0
