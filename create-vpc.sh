@@ -3,6 +3,8 @@ aws ec2 allocate-address
 
 # Create VPC
 aws ec2 create-vpc --cidr-block 10.0.0.0/16 --no-amazon-provided-ipv6-cidr-block --query Vpc.VpcId --output text
+aws ec2 modify-vpc-attribute --vpc-id vpc-013d086fde1b98a32 --enable-dns-support "{\"Value\":true}"
+aws ec2 modify-vpc-attribute --vpc-id vpc-013d086fde1b98a32 --enable-dns-hostnames "{\"Value\":true}"
 
 # Create public subnet
 aws ec2 create-subnet --vpc-id vpc-013d086fde1b98a32 --cidr-block 10.0.0.0/24 --availability-zone us-east-1a
