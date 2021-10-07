@@ -24,3 +24,11 @@ aws ec2 create-security-group --group-name webserver-securitygroup --description
 aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 22 --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 80 --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id sg-08b0330628d780ffa --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+# Create VPC security group for private DB instance
+aws ec2 create-security-group --group-name db-securitygroup --description "DB Instance Security Group" --vpc-id vpc-013d086fde1b98a32 --query GroupId --output text
+aws ec2 authorize-security-group-ingress --group-id sg-0d8a441084eba7d5c --protocol tcp --port 3306 --source-group sg-08b0330628d780ffa
+
+# Create DB subnet Group
+aws ec2 describe-subnets
+aws rds create-db-subnet-group --db-subnet-group-name db-subnetgroup --db-subnet-group-description "DB Subnet Group" --subnet-ids '["subnet-02bd56015f6e2cfd9","subnet-0ac5c0a9758609ae8"]'
