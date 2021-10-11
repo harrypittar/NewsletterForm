@@ -80,19 +80,38 @@ cd NewsletterForm
     ```
     aws ec2 describe-instances --filters "Name=tag:Name,Values=user-webserver" --query 'Reservations[].Instances[].PublicDnsName'
     ```
-2. Get the public DNS for your admin webserver and store as *"Admin Webserver DNS"* in `aws-ids.txt`:
+2. Get the public DNS for your admin webserver and store as *"Admin Webserver DNS"* in `aws-ids.txt`:  
     ```
     aws ec2 describe-instances --filters "Name=tag:Name,Values=admin-webserver" --query 'Reservations[].Instances[].PublicDnsName'
     ```
 3. Install Apache webserver and PHP on both webservers:  
-    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt`
+    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt` and run:
     ```
     ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[USER-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
     ```
     ```
     ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[ADMIN-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
     ```
-4. Get DB Instance endpoint and store as *"DB Instance Endpoint"* in `aws-ids.txt`
+4. Get DB Instance endpoint and store as *"DB Instance Endpoint"* in `aws-ids.txt`  
+
     ```
     aws rds describe-db-instances --query "DBInstances[].Endpoint.Address"
     ```
+5. Edit dbinfo.inc
+    Replace [DB-INSTANCE-ENDPOINT] in `dbinfo.inc` with your DB instance endpoint.
+6. Copy dbinfo.inc to webservers  
+    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt` and run:
+    ```
+    scp -i "~/.ssh/aws-keypair.pem" dbinfo.inc ec2-user@[USER-WEBSERVER-DNS]:/var/www/inc
+    ```
+    ```
+    scp -i "~/.ssh/aws-keypair.pem" dbinfo.inc ec2-user@[ADMIN-WEBSERVER-DNS]:/var/www/inc
+    ```
+7. Copy PHP files to webservers  
+    Replace DNS values and run:
+    ```
+    cp -i "~/.ssh/aws-keypair.pem" Form.php ec2-user@[USER-WEBSERVER-DNS]:/var/www/html
+    ```
+    ```
+    cp -i "~/.ssh/aws-keypair.pem" Data.php ec2-user@[ADMIN-WEBSERVER-DNS]:/var/www/html
+    ``` 
