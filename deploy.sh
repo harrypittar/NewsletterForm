@@ -8,7 +8,7 @@ aws ec2 create-key-pair --key-name aws-keypair --query 'KeyMaterial' --output te
 
 # Create User Webserver
 aws ec2 run-instances \
-    --image-id ami-09e67e426f25ce0d7 \
+    --image-id ami-02e136e904f3da870 \
     --instance-type t2.micro \
     --key-name aws-keypair \
     --subnet-id subnet-user-webserver \
@@ -18,7 +18,7 @@ aws ec2 run-instances \
 
 # Create Admin Webserver
 aws ec2 run-instances \
-    --image-id ami-09e67e426f25ce0d7 \
+    --image-id ami-02e136e904f3da870 \
     --instance-type t2.micro \
     --key-name aws-keypair \
     --subnet-id subnet-admin-webserver \
@@ -41,7 +41,7 @@ aws rds create-db-instance \
     --db-instance-class db.t2.micro \
     --db-subnet-group-name db-subnetgroup \
     --no-publicly-accessible \
-    --vpc-security-group-ids <Database Security Group ID> \
+    --vpc-security-group-ids sg-database \
     --allocated-storage 20 \
     --db-name subscribers
 
