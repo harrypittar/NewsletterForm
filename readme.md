@@ -12,7 +12,7 @@ In your terminal, type:
 aws configure
 ```
 Here is where you enter your credentials and configure AWS. 
-1. Enter the Access Key ID and Secret Access key for your AWS account.
+1. Enter the Access Key ID and Secret Access key for your AWS account. You can also copy your credentials to `~/.aws/credentials`
 2. Choose your default region. For the purposes of this tutorial, we have chosen us-east-1
 3. For the default output format, use text
 
@@ -60,7 +60,16 @@ cd NewsletterForm
     ```
     aws ec2 describe-subnets --filters "Name=availability-zone, Values=us-east-1c, us-east-1d" --query "Subnets[*].SubnetId"
     ```
-    and (two outputs) as *"RDS Subnet 1 ID"* and *"RDS Subnet 2 ID"*
+    (two outputs) as *"RDS Subnet 1 ID"* and *"RDS Subnet 2 ID"*,<br><br>
+    ```
+    aws ec2 describe-instances --filters 'Name=tag:Name, Values=user-webserver' --query "Reservations[*].Instances[*].InstanceId"
+    ```
+    as *"User Webserver Instance ID"*,<br><br>
+    ```
+    aws sts get-caller-identity --query Account 
+    ```
+    and this output as *"Account ID"*.
+
 
 4. Replace IDs in deployment script  
     Open `replace-ids.sh` in a text editor and replace each ID placeholder with your ID stored in `aws-ids.txt`<br><br>
@@ -70,10 +79,26 @@ cd NewsletterForm
     ```
     sh replace-ids.sh
     ```
-5. Deploy the application
+5. Deploy Application
     ```
     sh deploy.sh
     ```
+6. Create and configure S3 bucket:  
+    Replace [BUCKET-NAME] with a unique bucket name of your choice and store this name as *"Bucket Name"* in `aws-ids.txt`
+    ```
+    aws s3api create-bucket --bucket [BUCKET-NAME]
+    ```
+    
+    Associate IAM profile with user webserver instance: replace [USER-WEBSERVER-INSTANCE-ID] with your *"User Webserver Instance ID"* in `aws-ids.txt`
+    ```
+    aws ec2 associate-iam-instance-profile --instance-id [USER-WEBSERVER-INSTANCE-ID] --iam-instance-profile Name=mys3bucketaccess
+    ```
+7. Create bucket access point:  
+    Replace [ACCOUNT-ID], [BUCKET-NAME], and [VPC-ID] and run:
+    ```
+    aws s3control create-access-point --account-id [YOUR-ACCOUNT-ID] --bucket [YOUR-BUCKET-NAME] --name s3accesspoint --vpc-configuration 'VpcId=[VPC-ID]' --public-access-block-configuration 'BlockPublicAcls=FALSE,IgnorePublicAcls=FALSE,BlockPublicPolicy=FALSE,RestrictPublicBuckets=FALSE'
+    ```
+
 
 ## Setup Webservers
 1. Get the public DNS for your user webserver and store as *"User Webserver DNS"* in `aws-ids.txt`:
@@ -102,3 +127,7 @@ cd NewsletterForm
     ```
     sh setup-webservers.sh
     ```
+
+## Usage
+To view the user webserver page, visit your *"User Webserver DNS"* in your web browser, e.g.: ec2-3-236-198-221.compute-1.amazonaws.com <br><br>
+To view the database of entries, visit your *"Admin Server DNS"*
