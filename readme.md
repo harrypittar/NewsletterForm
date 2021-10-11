@@ -64,8 +64,12 @@ cd NewsletterForm
 
 4. Replace IDs in deployment script  
     Open `replace-ids.sh` in a text editor and replace each ID placeholder with your ID stored in `aws-ids.txt`<br><br>
-    For example, on line 1 of `replace-ids.sh`, replace [WEBSERVER-SECURITY-GROUP-ID] with your *"Webserver Security Group ID"*. 
-
+    For example, on line 1 of `replace-ids.sh`, replace [WEBSERVER-SECURITY-GROUP-ID] with your *"Webserver Security Group ID"*.   
+    <br>
+    And replace IDs:
+    ```
+    sh replace-ids.sh
+    ```
 5. Deploy the application
     ```
     sh deploy.sh
