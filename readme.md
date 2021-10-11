@@ -74,3 +74,25 @@ cd NewsletterForm
     ```
     sh deploy.sh
     ```
+
+## Setup Webservers
+1. Get the public DNS for your user webserver and store as *"User Webserver DNS"* in `aws-ids.txt`:
+    ```
+    aws ec2 describe-instances --filters "Name=tag:Name,Values=user-webserver" --query 'Reservations[].Instances[].PublicDnsName'
+    ```
+2. Get the public DNS for your admin webserver and store as *"Admin Webserver DNS"* in `aws-ids.txt`:
+    ```
+    aws ec2 describe-instances --filters "Name=tag:Name,Values=admin-webserver" --query 'Reservations[].Instances[].PublicDnsName'
+    ```
+3. Install Apache webserver and PHP on both webservers:  
+    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt`
+    ```
+    ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[USER-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
+    ```
+    ```
+    ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[ADMIN-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
+    ```
+4. Get DB Instance endpoint and store as *"DB Instance Endpoint"* in `aws-ids.txt`
+    ```
+    aws rds describe-db-instances --query "DBInstances[].Endpoint.Address"
+    ```

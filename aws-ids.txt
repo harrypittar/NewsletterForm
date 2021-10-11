@@ -2,6 +2,9 @@ VPC ID:
 Web Server Security Group ID: 
 Database Security Group ID: 
 User Webserver Subnet ID: 
-Admin Webserver Subnet ID:
-RDS Subnet 1 ID:
-RDS Subnet 2 ID:
+Admin Webserver Subnet ID: 
+RDS Subnet 1 ID: 
+RDS Subnet 2 ID: 
+User Webserver DNS: 
+Admin Webserver DNS: 
+DB Instance Endpoint: 
