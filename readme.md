@@ -84,34 +84,21 @@ cd NewsletterForm
     ```
     aws ec2 describe-instances --filters "Name=tag:Name,Values=admin-webserver" --query 'Reservations[].Instances[].PublicDnsName'
     ```
-3. Install Apache webserver and PHP on both webservers:  
-    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt` and run:
-    ```
-    ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[USER-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
-    ```
-    ```
-    ssh -i "~/.ssh/aws-keypair.pem" ec2-user@[ADMIN-WEBSERVER-DNS] 'bash -s' < setup-webserver.sh
-    ```
-4. Get DB Instance endpoint and store as *"DB Instance Endpoint"* in `aws-ids.txt`  
+3. Get DB Instance endpoint and store as *"DB Instance Endpoint"* in `aws-ids.txt`:  
 
     ```
     aws rds describe-db-instances --query "DBInstances[].Endpoint.Address"
     ```
-5. Edit dbinfo.inc
-    Replace [DB-INSTANCE-ENDPOINT] in `dbinfo.inc` with your DB instance endpoint.
-6. Copy dbinfo.inc to webservers  
-    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] with your webserver DNSs in `aws-ids.txt` and run:
+4. Edit dbinfo.inc:  
+    Replace [DB-INSTANCE-ENDPOINT] in `dbinfo.inc` with your DB Instance Endpoint.
+5. Set up web servers  
+    Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] and run the following:
     ```
-    scp -i "~/.ssh/aws-keypair.pem" dbinfo.inc ec2-user@[USER-WEBSERVER-DNS]:/var/www/inc
-    ```
-    ```
-    scp -i "~/.ssh/aws-keypair.pem" dbinfo.inc ec2-user@[ADMIN-WEBSERVER-DNS]:/var/www/inc
-    ```
-7. Copy PHP files to webservers  
-    Replace DNS values and run:
-    ```
-    cp -i "~/.ssh/aws-keypair.pem" Form.php ec2-user@[USER-WEBSERVER-DNS]:/var/www/html
+    sed -i '' 's/user-webserver.com/[USER-WEBSERVER-DNS]/g' setup-webservers.sh
     ```
     ```
-    cp -i "~/.ssh/aws-keypair.pem" Data.php ec2-user@[ADMIN-WEBSERVER-DNS]:/var/www/html
-    ``` 
+    sed -i '' 's/admin-webserver.com/[ADMIN-WEBSERVER-DNS]/g' setup-webservers.sh
+    ```
+    ```
+    sh setup-webservers.sh
+    ```
