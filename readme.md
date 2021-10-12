@@ -62,10 +62,6 @@ cd NewsletterForm
     ```
     (two outputs) as *"RDS Subnet 1 ID"* and *"RDS Subnet 2 ID"*,<br><br>
     ```
-    aws ec2 describe-instances --filters 'Name=tag:Name, Values=user-webserver' --query "Reservations[*].Instances[*].InstanceId"
-    ```
-    as *"User Webserver Instance ID"*,<br><br>
-    ```
     aws sts get-caller-identity --query Account 
     ```
     and this output as *"Account ID"*.
@@ -88,7 +84,10 @@ cd NewsletterForm
     ```
     aws s3api create-bucket --bucket [BUCKET-NAME]
     ```
-    
+    Get your User *"Webserver Instance ID"* and store in `aws-ids.txt`  
+    ```
+    aws ec2 describe-instances --filters 'Name=tag:Name, Values=user-webserver' --query "Reservations[*].Instances[*].InstanceId"
+    ```
     Associate IAM profile with user webserver instance: replace [USER-WEBSERVER-INSTANCE-ID] with your *"User Webserver Instance ID"* in `aws-ids.txt`
     ```
     aws ec2 associate-iam-instance-profile --instance-id [USER-WEBSERVER-INSTANCE-ID] --iam-instance-profile Name=mys3bucketaccess
