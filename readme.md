@@ -136,5 +136,5 @@ cd NewsletterForm
     ```
 
 ## Usage
-To view the user webserver page, visit your *"User Webserver DNS"* in your web browser, e.g.: ec2-3-236-198-221.compute-1.amazonaws.com <br><br>
-To view the database of entries, visit your *"Admin Server DNS"*
+To view the user webserver page, visit your *"User Webserver DNS"* with `/Form.php` in your web browser, e.g.: [ec2-54-91-88-196.compute-1.amazonaws.com/Form.php](ec2-54-91-88-196.compute-1.amazonaws.com/Form.php) <br><br>
+To view the database of entries, visit your *"Admin Server DNS"* with `/Data.php`, e.g.: [ec2-35-153-175-217.compute-1.amazonaws.com/Data.php](ec2-35-153-175-217.compute-1.amazonaws.com/Data.php)
