@@ -120,6 +120,9 @@ cd NewsletterForm
     ```
 4. Edit dbinfo.inc:  
     Replace [DB-INSTANCE-ENDPOINT] in `dbinfo.inc` with your DB Instance Endpoint.
+    ```
+    sed -i '' 's/db-endpoint/[DB-INSTANCE-ENDPOINT]/g' dbinfo.inc
+    ```
 5. Set up web servers  
     Replace [USER-WEBSERVER-DNS] and [ADMIN-WEBSERVER-DNS] and run the following:
     ```
