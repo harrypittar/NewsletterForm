@@ -58,7 +58,7 @@ $fopen = fopen("/var/www/html/storage.csv", "w");
                 fwrite($fopen,"\n".$row['NAME'].",".$row['ADDRESS']);
 
             }
-            echo shell_exec("aws s3 mv storage.csv s3://[BUCKET-NAME]");
+            echo shell_exec("aws s3 mv storage.csv s3://bucketname");
             fclose($fopen);
 /* Add an employee to the table. */
 function AddEmployee($connection, $name, $address) {
