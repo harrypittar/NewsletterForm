@@ -98,7 +98,10 @@ cd NewsletterForm
     aws s3control create-access-point --account-id [YOUR-ACCOUNT-ID] --bucket [YOUR-BUCKET-NAME] --name s3accesspoint --vpc-configuration 'VpcId=[VPC-ID]' --public-access-block-configuration 'BlockPublicAcls=FALSE,IgnorePublicAcls=FALSE,BlockPublicPolicy=FALSE,RestrictPublicBuckets=FALSE'
     ```
 8. Edit Form.php  
-    Open Form.php in a text editor. On line 61, replace [BUCKET-NAME] with your Bucket Name. 
+    Replace [BUCKET-NAME] with your bucket name and run: 
+    ```
+    sed -i '' 's/bucketname/[BUCKET-NAME]/g' Form.php
+    ```
 
 
 ## Setup Webservers
